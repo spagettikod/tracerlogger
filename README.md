@@ -7,10 +7,8 @@ Reads data from a connected EPsolar Tracer*BN solar charge controller every 5 se
 
 ## Installation
 Currently there are no binaries to download. Instead you have to install Go,
-http://www.golang.org, and run the following commands.
-
+http://www.golang.org, and run:
 ```
-go get github.com/spagettikod/tracerlogger
 go install github.com/spagettikod/tracerlogger
 ```
 
