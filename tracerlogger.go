@@ -182,16 +182,17 @@ func main() {
 	}
 	setup()
 	go func() {
+		doLog()
 		c := time.Tick(5 * time.Second)
 		for _ = range c {
 			doLog()
 		}
 	}()
-	/*http.HandleFunc("/", LatestLogHandler)
+	http.HandleFunc("/", LatestLogHandler)
 	http.HandleFunc(DailyPVPowerURI, DayPowerHandler)
 	http.HandleFunc(DailyPVPowerURI+"/", DayPowerHandler)
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		log.Fatalf("ListenAndServe: %v", err)
-	}*/
+	}
 }
