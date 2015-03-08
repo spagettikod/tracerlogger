@@ -66,8 +66,11 @@ func doLog() error {
 
 	_, err = db.BatchPutAttributes(SDBDomainName, buffer)
 	if err != nil {
-		log.Printf("putting items into simpledb failed, items remaing in buffer: %v", err)
+		log.Printf("putting items into simpledb failed, items remain in buffer: %v", err)
 		return err
+	}
+	if len(buffer) > 1 {
+		log.Printf("connection restored to SDB, sent %v items from buffer", len(buffer))
 	}
 	buffer = []*sdb.Item{}
 
