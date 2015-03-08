@@ -81,11 +81,9 @@ func main() {
 		os.Exit(-1)
 	}
 	setup()
-	go func() {
+	doLog()
+	c := time.Tick(5 * time.Second)
+	for _ = range c {
 		doLog()
-		c := time.Tick(5 * time.Second)
-		for _ = range c {
-			doLog()
-		}
-	}()
+	}
 }
