@@ -70,7 +70,7 @@ func doLog() error {
 		return err
 	}
 	if len(buffer) > 1 {
-		log.Printf("connection restored to SDB, sent %v items from buffer", len(buffer))
+		log.Printf("connection restored to simpledb, sent %v items from buffer", len(buffer))
 	}
 	buffer = []*sdb.Item{}
 
