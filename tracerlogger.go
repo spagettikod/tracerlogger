@@ -14,7 +14,7 @@ import (
 const (
 	CreateLogTable string = `
 		CREATE TABLE IF NOT EXISTS log (
-			timestamp			NUMERIC PRIMARY KEY,
+			timestamp			DATETIME PRIMARY KEY,
 			array_voltage 		REAL,
 			array_current 		REAL,
 			array_power 		REAL,
@@ -39,6 +39,35 @@ const (
 			generated_total 	REAL
 		);
 	`
+
+	CreateTenMinAvgTable string = `
+		CREATE TABLE IF NOT EXISTS log_ten_min_avg (
+			timestamp			DATETIME PRIMARY KEY,
+			last_timestamp		DATETIME PRIMARY KEY,
+			array_voltage 		REAL,
+			array_current 		REAL,
+			array_power 		REAL,
+			battery_voltage 	REAL,
+			battery_current 	REAL,
+			battery_soc 		INTEGER,
+			battery_temp 		REAL,
+			battery_max_volt 	REAL,
+			battery_min_volt 	REAL,
+			device_temp 		REAL,
+			load_voltage 		REAL,
+			load_current 		REAL,
+			load_power 			REAL,
+			consumed_day 		REAL,
+			consumed_month 		REAL,
+			consumed_year		REAL,
+			consumed_total 		REAL,
+			generated_day 		REAL,
+			generated_month 	REAL,
+			generated_year		REAL,
+			generated_total 	REAL
+		);
+	`
+
 	InsertStmt string = `
 		INSERT INTO log (
 			timestamp,
@@ -66,6 +95,9 @@ const (
 			generated_total
 		) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);
 	`
+	SelectLatestTenMinTimestamp string = `
+		
+	`
 )
 
 var (
@@ -85,6 +117,11 @@ func setup() (err error) {
 	}
 
 	_, err = db.Exec(CreateLogTable)
+	if err != nil {
+		return
+	}
+
+	_, err = db.Exec(CreateTenMinAvgTable)
 	return
 }
 
