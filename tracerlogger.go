@@ -42,8 +42,8 @@ const (
 
 	CreateTenMinAvgTable string = `
 		CREATE TABLE IF NOT EXISTS log_ten_min_avg (
-			timestamp			DATETIME PRIMARY KEY,
 			last_timestamp		DATETIME PRIMARY KEY,
+			timestamp 			DATETIME,
 			array_voltage 		REAL,
 			array_current 		REAL,
 			array_power 		REAL,
