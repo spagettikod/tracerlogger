@@ -40,34 +40,6 @@ const (
 		);
 	`
 
-	CreateTenMinAvgTable string = `
-		CREATE TABLE IF NOT EXISTS log_ten_min_avg (
-			last_timestamp		DATETIME PRIMARY KEY,
-			timestamp 			DATETIME,
-			array_voltage 		REAL,
-			array_current 		REAL,
-			array_power 		REAL,
-			battery_voltage 	REAL,
-			battery_current 	REAL,
-			battery_soc 		INTEGER,
-			battery_temp 		REAL,
-			battery_max_volt 	REAL,
-			battery_min_volt 	REAL,
-			device_temp 		REAL,
-			load_voltage 		REAL,
-			load_current 		REAL,
-			load_power 			REAL,
-			consumed_day 		REAL,
-			consumed_month 		REAL,
-			consumed_year		REAL,
-			consumed_total 		REAL,
-			generated_day 		REAL,
-			generated_month 	REAL,
-			generated_year		REAL,
-			generated_total 	REAL
-		);
-	`
-
 	InsertStmt string = `
 		INSERT INTO log (
 			timestamp,
@@ -95,9 +67,6 @@ const (
 			generated_total
 		) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);
 	`
-	SelectLatestTenMinTimestamp string = `
-		
-	`
 )
 
 var (
@@ -117,18 +86,12 @@ func setup() (err error) {
 	}
 
 	_, err = db.Exec(CreateLogTable)
-	if err != nil {
-		return
-	}
-
-	_, err = db.Exec(CreateTenMinAvgTable)
 	return
 }
 
 func doLog() error {
 	t, err := gotracer.Status(port)
 	if err != nil {
-		log.Printf("reading tracer status failed: %v", err)
 		return err
 	}
 	_, err = db.Exec(InsertStmt, t.Timestamp, t.ArrayVoltage, t.ArrayCurrent, t.ArrayPower, t.BatteryVoltage,
@@ -155,6 +118,9 @@ func main() {
 	doLog()
 	c := time.Tick(5 * time.Second)
 	for _ = range c {
-		doLog()
+		err := doLog()
+		if err != nil {
+			log.Printf("doLog failed: %v", err)
+		}
 	}
 }
