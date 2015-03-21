@@ -86,6 +86,11 @@ func setup() (err error) {
 	}
 
 	_, err = db.Exec(CreateLogTable)
+	if err != nil {
+		return
+	}
+
+	_, err = db.Exec("PRAGMA journal_mode=WAL;")
 	return
 }
 
