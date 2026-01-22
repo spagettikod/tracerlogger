@@ -1,3 +1,5 @@
+## THIS PROJECT HAS BEEN MIGRATED TO https://codeberg.org/spagettikod/tracerlogger
+
 # tracerlogger
 Reads data from a connected EPsolar Tracer*BN solar charge controller every 5 seconds and saves it to a SQLite database.
 
